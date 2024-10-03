@@ -1,41 +1,14 @@
 import React from 'react';
+import KeyboardRow from 'src/components/Game/Keyboard/KeyboardRow.tsx';
 
-const firstRow = 'azertyuiop';
-const secondRow = 'qsdfghjklm';
-const thirdRow = 'wxcvbn⌫↲';
+const rows = ['azertyuiop', 'qsdfghjklm', 'wxcvbn⌫↲'];
 
 const Keyboard: React.FC = () => {
   return (
     <div className="flex flex-col justify-center items-center my-12">
-      <div className="flex">
-        {
-          Array.from(firstRow).map((letter) => (
-            <div className="h-12 w-12 border-2 border-black rounded-md flex items-center justify-center" key={letter}>
-              {letter}
-            </div>
-          ))
-        }
-      </div>
-
-      <div className="flex">
-        {
-          Array.from(secondRow).map((letter) => (
-            <div className="h-12 w-12 border-2 border-black rounded-md flex items-center justify-center" key={letter}>
-              {letter}
-            </div>
-          ))
-        }
-      </div>
-
-      <div className="flex">
-        {
-          Array.from(thirdRow).map((letter) => (
-            <div className="h-12 w-12 border-2 border-black rounded-md flex items-center justify-center" key={letter}>
-              {letter}
-            </div>
-          ))
-        }
-      </div>
+      {rows.map((row) => (
+        <KeyboardRow key={row[0]} letters={row} />
+      ))}
     </div>
   );
 };

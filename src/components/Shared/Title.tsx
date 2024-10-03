@@ -1,9 +1,13 @@
 import React from 'react';
 
-const Title: React.FC = () => {
+interface Props {
+  text: string;
+}
+
+const Title: React.FC<Props> = ({ text }) => {
   return (
     <h1 className="text-5xl text-center my-12">
-        MOTUS
+      { text }
     </h1>
   );
 };

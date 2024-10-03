@@ -1,10 +1,7 @@
 import './App.css'
 import Game from 'src/components/Game/Game.tsx';
 
-// const symbols = '⌫↲';
-
-function App() {
-
+const App = ()=> {
   return (
     <div className="container mx-auto flex flex-col items-center">
       <Game />

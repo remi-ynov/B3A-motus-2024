@@ -4,10 +4,12 @@ import Grid from 'src/components/Game/Grid/Grid.tsx';
 import Keyboard from 'src/components/Game/Keyboard/Keyboard.tsx';
 
 const Game: React.FC = () => {
+  const word = 'BATEAU';
+
   return (
     <div>
-      <Title />
-      <Grid />
+      <Title text="MOTUS" />
+      <Grid word={word} />
       <Keyboard />
     </div>
   );
