@@ -1,17 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Title from 'src/components/Shared/Title.tsx';
 import Grid from 'src/components/Game/Grid/Grid.tsx';
 import Keyboard from 'src/components/Game/Keyboard/Keyboard.tsx';
 import { LetterState } from 'src/types/GameTypes.ts';
 import { MAX_ATTEMPTS } from 'src/config/gameConfig.ts';
 import Message from 'src/components/Shared/Message.tsx';
+import { getRandomWord } from 'src/api/gameApi.ts';
+import Loader from 'src/components/Shared/Loader.tsx';
+import Button from 'src/components/Shared/Button.tsx';
+import { formatWord } from 'src/helpers/genericHelper.ts';
 
 const Game: React.FC = () => {
-  const [word, setWord] = useState('RADEAU')
-  const [attempts, setAttempts] = useState([word.charAt(0)]);
+  const [word, setWord] = useState<string>('')
+  const [attempts, setAttempts] = useState<string[]>([]);
   const [results, setResults] = useState<string[]>([]);
   const [message, setMessage] = useState<string|null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [gameFinished, setGameFinished] = useState<boolean>(false);
   const currentAttempt = attempts[attempts.length - 1];
+
+  useEffect(() => {
+    startGame()
+  }, []);
+
+  const startGame = () => {
+    setMessage(null)
+
+    getRandomWord()
+      .then((data) => {
+        const newWord = formatWord(data);
+
+        setWord(newWord);
+        setAttempts([newWord.charAt(0)]);
+        setResults([]);
+      })
+      .catch((error) => setMessage(error.message))
+      .finally(() => {
+        setLoading(false)
+        setGameFinished(false)
+      });
+  }
 
   const onKeyPress= (letter: string) => {
     setMessage(null)
@@ -65,7 +93,8 @@ const Game: React.FC = () => {
     setResults([...results, attemptResult]);
 
     if (currentAttempt === word) {
-      setMessage('BRAVO !')
+      setMessage('BRAVO !');
+      setGameFinished(true);
     }
     else if (attempts.length === MAX_ATTEMPTS) {
       setMessage(`Dommage, vous avez perdu... Le mot était : ${word}`)
@@ -79,12 +108,25 @@ const Game: React.FC = () => {
     <div>
       <Title text="MOTUS" />
       <Message content={message} />
-      <Grid
-        length={word.length}
-        attempts={attempts}
-        results={results}
-      />
-      <Keyboard onKeyPress={onKeyPress} />
+
+      {loading && <Loader />}
+
+      {word !== '' && (
+        <>
+          <Grid
+            length={word.length}
+            attempts={attempts}
+            results={results}
+          />
+          <Keyboard onKeyPress={onKeyPress} />
+        </>
+      )}
+
+      {gameFinished && (
+        <div className="items-center justify-center flex">
+          <Button label="Rejouer" onClick={startGame} />
+        </div>
+      )}
     </div>
   );
 };
