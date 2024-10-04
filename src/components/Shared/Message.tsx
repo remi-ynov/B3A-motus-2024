@@ -1,10 +1,10 @@
 import React from 'react';
+import { useAtomValue } from 'jotai';
+import { messageAtom } from 'src/atoms/gameAtoms.ts';
 
-interface Props {
-    content: string|null;
-}
+const Message: React.FC = () => {
+  const content = useAtomValue(messageAtom)
 
-const Message: React.FC<Props> = ({ content }) => {
   return content ? (
     <div className="my-2 border-2 border-blue-500 p-4 text-center">
         {content}
