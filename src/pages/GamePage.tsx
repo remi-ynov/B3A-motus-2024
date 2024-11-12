@@ -1,18 +1,19 @@
 import React, { Suspense } from 'react';
-import Title from 'src/components/Shared/Title.tsx';
 import Message from 'src/components/Shared/Message.tsx';
 import Game from 'src/components/Game/Game.tsx';
 import Loader from 'src/components/Shared/Loader.tsx';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useAtomValue } from 'jotai';
 import { numberGamesAtom } from 'src/atoms/gameAtoms.ts';
+import LinkButton from 'src/components/Shared/LinkButton.tsx';
 
 const GamePage: React.FC = () => {
     const numberGames = useAtomValue(numberGamesAtom);
 
     return (
       <div>
-          <Title text="MOTUS" />
+          <LinkButton to="/" label="Retour" />
+
           <div className="text-center my-4">
               Nombre de parties : {numberGames}
           </div>

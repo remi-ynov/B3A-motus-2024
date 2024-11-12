@@ -1,11 +1,10 @@
 import './App.css'
-import GamePage from 'src/components/Game/GamePage.tsx';
+import router from 'src/config/router.tsx';
+import { RouterProvider } from 'react-router-dom';
 
 const App = ()=> {
   return (
-    <div className="container mx-auto flex flex-col items-center">
-      <GamePage />
-    </div>
+    <RouterProvider router={router} />
   )
 }
 
